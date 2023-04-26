@@ -1,0 +1,90 @@
+// C++ code
+//Agustin Di Leone 1B
+//Semaforo en dojo
+//Semaforo nivel 1
+//1 - LA PRIMER  ENTREGA SERÁ LO SIGUIENTE, 
+//1- El semáforo tiene que tener 2 leds de cada color como mínimo, en caso de que uno se  rompa. 
+//2- Tiene que implementar los tiempos correctos como se detallan a continuación. 3- El verde dura 5 segundos. 
+//4- El amarillo dura 3 segundos. 
+//5- Rojo dura 5 segundos. 
+//6- Tiene que tener señalización para personas no videntes como se detalla a  continuación. (Buzzer o piezo)
+//7- Durante el rojo: Tiene que sonar 2 vez por segundo en un tono FUERTE. 
+
+
+#define LED_R 13
+#define LED_A 9
+#define LED_V 6
+#define LED_R_DOS 12
+#define LED_A_DOS 8
+#define LED_V_DOS 5
+int luzRoja;
+int luzAmarillo;
+int luzVerde;
+int intervalo;
+int sonido;
+void setup()
+{
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_A, OUTPUT);
+  pinMode(LED_V, OUTPUT);
+  pinMode(LED_R_DOS, OUTPUT);
+  pinMode(LED_A_DOS, OUTPUT);
+  pinMode(LED_V_DOS, OUTPUT);
+  luzRoja=5000;
+  luzAmarillo=3000;
+  luzVerde=5000;
+  intervalo=500;
+  pinMode(3, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  encender(LED_R);
+  encender(LED_R_DOS);
+  Serial.print("Se encendio led rojo");
+  sonido = digitalRead(13);
+  if (sonido == HIGH);
+  {
+    sonar(10, 250);
+  }
+  Serial.println("Sono la alarma por led rojo");
+  apagar(LED_R);
+  apagar(LED_R_DOS);
+  Serial.println("Se apago led rojo");
+  delay(intervalo); 
+  encender(LED_A);
+  encender(LED_A_DOS);
+  Serial.println("Se encendio led amarillo");
+  delay(luzAmarillo); 
+  apagar(LED_A);
+  apagar(LED_A_DOS);
+  Serial.println("Se apago led amarillo");
+  delay(intervalo); 
+  encender(LED_V);
+  encender(LED_V_DOS);
+  Serial.println("Se encendio led verde");
+  delay(luzVerde); 
+  apagar(LED_V);
+  apagar(LED_V_DOS);
+  Serial.println("Se apago led verde");
+  delay(intervalo); 
+}
+void encender(int led_encender)
+{
+  digitalWrite(led_encender, HIGH);
+}
+void apagar(int led_apagar)
+{
+  digitalWrite(led_apagar, LOW); 
+}
+void sonar(int repeticiones, int tiempo)
+{
+  for (int i=0; i<repeticiones; i++)
+  {
+  	tone(3, 880, 500);
+    delay(tiempo);
+  	noTone(3);
+    delay(tiempo);
+  }
+}
