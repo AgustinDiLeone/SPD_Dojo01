@@ -1,0 +1,121 @@
+// C++ code
+//Agustin Di Leone 1B
+//Semaforo en dojo
+//Semaforo nivel 1
+//2 - LA SEGUNDA ENTREGA AGREGA LO SIGUIENTE EN UN NUEVO PROYECTO, 
+//8-  Durante el amarillo: Tiene que sonar 1 vez por segundo en un tono SUAVE. 
+//9- Al cambiar de verde a amarillo debe titilar 3 veces el verde antes de pasar al amarillo
+//10- Al cambiar de amarillo a rojo se debe titilar 3 veces el amarillo
+//11- Al cambiar de rojo a Amarillo se debe titilar 3 veces el rojo
+//12- Al cambiar de amarillo a verde se debe titilar 3 veces el amarillo.
+
+
+#define LED_R 13
+#define LED_A 9
+#define LED_V 6
+#define LED_R_DOS 12
+#define LED_A_DOS 8
+#define LED_V_DOS 5
+int luzRoja;
+int luzAmarillo;
+int luzVerde;
+int intervalo;
+int sonido;
+void setup()
+{
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_A, OUTPUT);
+  pinMode(LED_V, OUTPUT);
+  pinMode(LED_R_DOS, OUTPUT);
+  pinMode(LED_A_DOS, OUTPUT);
+  pinMode(LED_V_DOS, OUTPUT);
+  luzRoja=5000;
+  luzAmarillo=3000;
+  luzVerde=5000;
+  intervalo=500;
+  pinMode(3, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  encender(LED_R);
+  encender(LED_R_DOS);
+  Serial.print("Se encendio led rojo");
+  sonido = digitalRead(13);
+  if (sonido == HIGH);
+  {
+    sonar(10, 250, 880);
+  }
+  Serial.println("Sono la alarma por led rojo");
+  titilar(LED_R, LED_R_DOS, 3);
+  apagar(LED_R);
+  apagar(LED_R_DOS);
+  Serial.println("Se apago led rojo");
+  delay(intervalo); 
+  encender(LED_A);
+  encender(LED_A_DOS);
+  Serial.println("Se encendio led amarillo");
+  sonido = digitalRead(13);
+  if (sonido == HIGH);
+  {
+    sonar(3, 500, 440);
+  }
+  apagar(LED_A);
+  apagar(LED_A_DOS);
+  titilar(LED_A, LED_A_DOS, 3);
+  Serial.println("Se apago led amarillo");
+  delay(intervalo); 
+  encender(LED_V);
+  encender(LED_V_DOS);
+  Serial.println("Se encendio led verde");
+  delay(luzVerde); 
+  apagar(LED_V);
+  apagar(LED_V_DOS);
+  titilar(LED_V, LED_V_DOS, 3);
+  Serial.println("Se apago led verde");
+  delay(intervalo);
+  encender(LED_A);
+  encender(LED_A_DOS);
+  Serial.println("Se encendio led amarillo");
+  sonido = digitalRead(13);
+  if (sonido == HIGH);
+  {
+    sonar(3, 500, 440);
+  }
+  apagar(LED_A);
+  apagar(LED_A_DOS);
+  titilar(LED_A, LED_A_DOS, 3);
+  Serial.println("Se apago led amarillo");
+  delay(intervalo);
+}
+void encender(int led_encender)
+{
+  digitalWrite(led_encender, HIGH);
+}
+void apagar(int led_apagar)
+{
+  digitalWrite(led_apagar, LOW); 
+}
+void sonar(int repeticiones, int tiempo, int tono)
+{
+  for (int i=0; i<repeticiones; i++)
+  {
+  	tone(3, tono);
+    delay(tiempo);
+  	noTone(3);
+    delay(tiempo);
+  }
+}
+void titilar(int led, int led2, int repeticiones)
+{
+  for (int i=0; i<=repeticiones; i++)
+  {
+    encender(led);
+    encender(led2);
+    delay(500);
+    apagar(led);
+    apagar(led2);
+    delay(500);
+  }
+ }
